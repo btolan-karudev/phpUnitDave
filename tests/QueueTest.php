@@ -4,49 +4,66 @@ use PHPUnit\Framework\TestCase;
 
 class QueueTest extends TestCase
 {
-    protected static $queue;
+    protected $queue;
 
     protected function setUp(): void
     {
-        static::$queue->clear();
+        $this->queue = new Queue;    
     }
 
-    public static function setUpBeforeClass(): void
-    {
-        static::$queue = new Queue;        
-    }
-    
-    public static function tearDownAfterClass(): void
-    {
-        static::$queue = null;        
-    }    
 
     public function testNewQueueIsEmpty() {
-        $this->assertEquals(0, static::$queue->getCount());
+        $this->assertEquals(0, $this->queue->getCount());
     }
 
     public function testNewItemAddedToTheQueue() 
     {
-        static::$queue->push('Monica');
-        $this->assertEquals(1, static::$queue->getCount());
+        $this->queue->push('Monica');
+        $this->assertEquals(1, $this->queue->getCount());
     }
 
     public function testRemoveItemFromTheQueue() 
     {
-        static::$queue->push('Monica');
-        $item = static::$queue->pop();
+        $this->queue->push('Monica');
+        $item = $this->queue->pop();
 
-        $this->assertEquals(0, static::$queue->getCount());
+        $this->assertEquals(0, $this->queue->getCount());
         $this->assertEquals('Monica', $item);
     }
 
     public function testAnItemIsRemoveFromTheFrontOfTheQueue() 
     {
-        $item1 = static::$queue->push('first');
-        $item2 = static::$queue->push('second');
+        $item1 = $this->queue->push('first');
+        $item2 = $this->queue->push('second');
 
-        $this->assertEquals('first', static::$queue->pop());
+        $this->assertEquals('first', $this->queue->pop());
 
     }
+
+    public function testMaxNumberOfItemsCanBeAdded()
+    {
+        for ($i = 0; $i < Queue::MAX_ITEMS; $i++) {
+
+            $this->queue->push($i);
+            
+        }        
+        
+        $this->assertEquals(Queue::MAX_ITEMS, $this->queue->getCount());        
+    }
+    
+    public function testExceptionThrownWhenAddingAnItemToAFullQueue()
+    {
+        for ($i = 0; $i < Queue::MAX_ITEMS; $i++) {
+
+            $this->queue->push($i);
+            
+        }     
+
+        $this->expectException(QueueException::class);
+        
+        $this->expectExceptionMessage("Queue is full");        
+        
+        $this->queue->push("wafer thin mint");           
+    }   
 
 }
