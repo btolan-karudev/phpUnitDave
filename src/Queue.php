@@ -22,6 +22,8 @@ class Queue
     public function push($item)
     {
         $this->items[] = $item;
+
+        return $this;
     }
 
     /**
@@ -31,7 +33,7 @@ class Queue
      */
     public function pop()
     {
-        return array_pop($this->items);
+        return array_shift($this->items);
     }
 
     /**
