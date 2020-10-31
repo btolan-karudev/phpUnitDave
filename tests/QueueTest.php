@@ -10,23 +10,29 @@ class QueueTest extends TestCase
         $queue = new Queue;
 
         $this->assertEquals(0, $queue->getCount());
+
+        return $queue;
         
     }
 
-    public function testNewItemAddedToTheQueue() {
+    /**
+     * @depends testNewQueueIsEmpty
+     */
+    public function testNewItemAddedToTheQueue(Queue $queue) {
 
-        $queue = new Queue;
         $queue->push('Monica');
 
         $this->assertEquals(1, $queue->getCount());
+
+        return $queue;
         
     }
 
-    public function testRemoveItemFromTheQueue() {
-
-        $queue = new Queue;
-        $queue->push('Monica');
-
+    /**
+     * @depends testNewItemAddedToTheQueue
+     */
+    public function testRemoveItemFromTheQueue(Queue $queue) {
+        
         $item = $queue->pop();
 
         $this->assertEquals(0, $queue->getCount());
