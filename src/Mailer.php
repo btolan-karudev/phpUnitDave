@@ -7,6 +7,7 @@
  */
 class Mailer
 {
+
     /**
      * Send a message
      *
@@ -17,6 +18,11 @@ class Mailer
      */
     public function sendMessage($email, $message)
     {
+        if (empty($email))
+        {
+            throw new Exception;
+        }
+        
         // Use mail() or PHPMailer for example
         sleep(3);
 
