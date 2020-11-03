@@ -1,10 +1,13 @@
 {
     "require-dev": {
-        "phpunit/phpunit": "^9.4"
+        "phpunit/phpunit": "^9.0"
     },
     "autoload": {
         "psr-4": {
             "": "src/"
         }
+    },
+    "require": {
+        "mockery/mockery": "^1.4"
     }
 }
