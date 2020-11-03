@@ -2,6 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
+use function PHPUnit\Framework\equalTo;
+
 class UserTest extends TestCase
 {
     public function testReturnsFullName()
@@ -29,17 +31,20 @@ class UserTest extends TestCase
     }
 
     public function testNotificationIsSent() {
+
         $user = new User;
 
         $mailerMock = $this->createMock(Mailer::class);
 
-        $mailerMock->method('sendMessage')
+        $mailerMock->expects($this->once())
+                ->method('sendMessage')
+                ->with($this->equalTo('dave@gmail.com'), $this->equalTo('Hello'))
                 ->willReturn(true);
-
-        $mailerMock->sendMessage('emilio@gmail.Com', 'Hello Emilio');
 
         $user->setMailer($mailerMock);
 
-        $this->assertTrue($user->notify("Salut"));
+        $user->email = 'dave@gmail.com';
+
+        $this->assertTrue($user->notify("Hello"));
     }
 }

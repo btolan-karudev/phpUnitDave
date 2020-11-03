@@ -25,22 +25,22 @@ class User
      * @var string
      */
     public $email;
-    
+
     /**
      * Mailer object
      * @var Mailer
      */
     protected $mailer;
-    
+
     /**
      * Set the mailer dependency
      *
      * @param Mailer $mailer The Mailer object
      */
     public function setMailer(Mailer $mailer) {
-        $this->mailer = $mailer;        
-    }    
-        
+        $this->mailer = $mailer;
+    }
+
     /**
      * Get the user's full name from their first name and surname
      *
@@ -50,7 +50,7 @@ class User
     {
         return trim("$this->first_name $this->surname");
     }
-    
+
     /**
      * Send the user a message
      *
@@ -60,6 +60,6 @@ class User
      */
     public function notify($message)
     {
-        return $this->mailer->sendMessage($this->email, $message);        
-    }    
+        return $this->mailer->sendMessage($this->email, $message);
+    }
 }
